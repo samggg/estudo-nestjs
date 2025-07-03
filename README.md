@@ -1,6 +1,6 @@
 # API de Usuários
 
-Esta é uma API de gerenciamento de usuários construída com **NestJS**. Ela permite criar e listar usuários, utilizando **Swagger** para documentação da API e **class-validator** para validação dos dados.
+Esta é uma API de gerenciamento de usuários construída com **NestJS co Prisma**. Ela permite criar e listar usuários, utilizando **Swagger** para documentação da API e **class-validator** para validação dos dados.
 
 ## Funcionalidades
 
@@ -10,6 +10,7 @@ Esta é uma API de gerenciamento de usuários construída com **NestJS**. Ela pe
 ## Tecnologias Utilizadas
 
 - **NestJS**: Framework para Node.js para construção da API.
+- **Prisma ORM**: Para fazer o link com o Banco de Dados.
 - **Swagger**: Para gerar e documentar a API.
 - **class-validator**: Para validar os dados de entrada.
 - **TypeScript**: Para garantir maior segurança e tipagem estática.
