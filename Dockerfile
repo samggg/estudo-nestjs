@@ -1,29 +1,35 @@
-# Dockerfile
+# Etapa 1: Build da aplicação
+FROM node:18-alpine AS builder
 
-# Etapa 1: Imagem base com Node.js
-FROM node:18-alpine
-
-# Diretório de trabalho
 WORKDIR /app
 
-# Copiar dependências
+# Instala apenas dependências necessárias
 COPY package*.json ./
-
-# Instalar dependências
 RUN npm install
 
-# Copiar o restante do código
+# Copia o restante dos arquivos
 COPY . .
 
-# Gerar Prisma Client
+# Gera Prisma Client (ignora erro)
 RUN npx prisma generate || true
 
-
-# Build da aplicação NestJS
+# Build do NestJS
 RUN npm run build
 
-# Expor a porta da aplicação
+# Etapa 2: Imagem final para produção
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copia apenas o necessário para rodar
+COPY package*.json ./
+RUN npm install --omit=dev
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/prisma ./prisma
+
+# Exponha a porta
 EXPOSE 3000
 
-# Comando para iniciar a aplicação
-CMD ["npm", "run", "start:prod"]
+CMD ["node", "dist/main.js"]
